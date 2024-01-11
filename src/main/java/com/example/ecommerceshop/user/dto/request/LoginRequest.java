@@ -1,4 +1,4 @@
-package com.example.ecommerceshop.user.payload.request;
+package com.example.ecommerceshop.user.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
