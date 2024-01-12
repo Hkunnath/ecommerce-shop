@@ -21,7 +21,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-
     @PostMapping("/signup")
     public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         return userService.registerUser(signUpRequest);
@@ -31,6 +30,4 @@ public class AuthController {
     public UserDto loginUser(@Valid @RequestBody LoginRequest loginRequest){
         return userService.loginUser(loginRequest);
     }
-
-
 }

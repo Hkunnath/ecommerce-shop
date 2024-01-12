@@ -7,8 +7,8 @@ import jakarta.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "users" , uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
-@UniqueConstraint(columnNames = "email")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
 })
 public class User {
     @Id
@@ -16,7 +16,7 @@ public class User {
     private Integer id;
 
     @NotBlank
-    @Size(max=20)
+    @Size(min = 3, max = 20)
     private String username;
 
     @NotBlank
@@ -24,7 +24,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 6, max = 40)
     private String password;
 
     private String role;
@@ -32,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password,String role) {
+    public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -72,7 +72,7 @@ public class User {
         this.password = password;
     }
 
-    public String getRole(){
+    public String getRole() {
         return role;
     }
 
