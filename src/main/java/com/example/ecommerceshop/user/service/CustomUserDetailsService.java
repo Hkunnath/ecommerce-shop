@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-
     private final UserRepository userRepository;
 
     @Override
@@ -23,14 +22,12 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
 
-        UserDetails userDetails =
-                org.springframework.security.core.userdetails.User.builder()
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                         .username(user.get().getEmail())
                         .password(user.get().getPassword())
                         .roles(user.get().getRole())
                         .build();
 
         return userDetails;
-
     }
 }

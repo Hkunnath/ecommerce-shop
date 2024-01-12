@@ -1,9 +1,11 @@
 package com.example.ecommerceshop.user.security;
 
+import com.example.ecommerceshop.user.auth.JwtAuthorizationFilter;
 import com.example.ecommerceshop.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -24,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig{
 
     private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
 
     @Bean
@@ -40,8 +43,7 @@ public class SecurityConfig{
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/auth/signup").permitAll()
                         .anyRequest().authenticated()
-                )
-                .httpBasic(Customizer.withDefaults());
+                ).addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
