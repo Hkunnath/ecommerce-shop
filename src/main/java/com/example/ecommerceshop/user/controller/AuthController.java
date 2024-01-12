@@ -12,18 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
     private final UserService userService;
 
     public AuthController(UserService userService) {
         this.userService = userService;
     }
 
-
     @PostMapping("/signup")
-    public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest){
+    public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         return userService.registerUser(signUpRequest);
     }
-
-
 }
