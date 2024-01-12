@@ -4,10 +4,10 @@ import com.example.ecommerceshop.user.dto.request.SignupRequest;
 import com.example.ecommerceshop.user.dto.response.UserDto;
 import com.example.ecommerceshop.user.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,8 +22,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest){
+        System.out.println("Here I'm");
         return userService.registerUser(signUpRequest);
     }
 
+    @GetMapping("/login")
+    public ResponseEntity<Map<String, String>> test(){
+        System.out.println("Here I'm in login");
+        return ResponseEntity.ok(Map.of("Message", "Success"));
+    }
 
 }
