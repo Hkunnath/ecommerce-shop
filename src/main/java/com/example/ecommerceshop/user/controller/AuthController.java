@@ -18,7 +18,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-
     @PostMapping("/signup")
     public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         System.out.println("Here I'm");
@@ -30,4 +29,5 @@ public class AuthController {
         System.out.println("Here I'm in login");
         return ResponseEntity.ok(Map.of("Message", "Success"));
     }
+
 }
