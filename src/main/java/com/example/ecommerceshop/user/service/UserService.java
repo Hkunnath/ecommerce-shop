@@ -14,9 +14,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDto registerUser(SignupRequest signUpRequest){
-        User user = new User(signUpRequest.getUsername(),signUpRequest.getEmail(),signUpRequest.getPassword(),signUpRequest.getRole());
+    public UserDto registerUser(SignupRequest signUpRequest) {
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getRole());
         userRepository.save(user);
-        return new UserDto(user.getUsername(),user.getId());
+        return new UserDto(user.getUsername(), user.getId());
     }
 }

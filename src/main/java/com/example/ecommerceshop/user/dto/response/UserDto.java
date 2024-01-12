@@ -1,4 +1,5 @@
 package com.example.ecommerceshop.user.dto.response;
+
 public class UserDto {
     private String username;
     private Integer userId;
