@@ -5,19 +5,15 @@ import com.example.ecommerceshop.user.dto.request.SignupRequest;
 import com.example.ecommerceshop.user.dto.response.UserDto;
 import com.example.ecommerceshop.user.service.UserService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 
-public class AuthController {
+public class UserController {
     private final UserService userService;
 
-    public AuthController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

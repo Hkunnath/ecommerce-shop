@@ -1,6 +1,5 @@
-package com.example.ecommerceshop.user.controller;
+package com.example.ecommerceshop.user.exception;
 
-import com.example.ecommerceshop.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,5 +13,4 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(exception.getMessage());
     }
-
 }
