@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class JwtUtil {
-    private final String secretKey = "MY=SUPER=SECRET=CODE123=333====2323=123==452345=6756=76=";
+
     private long accessTokenValidity = 60 * 60 * 1000;
 
     private final JwtParser jwtParser;
@@ -27,7 +27,7 @@ public class JwtUtil {
 
     private final SecretKey key;
 
-    public JwtUtil() {
+    public JwtUtil(@Value("${jwt.secret}") final String secretKey) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.jwtParser = Jwts.parser().verifyWith(key).build();
     }
