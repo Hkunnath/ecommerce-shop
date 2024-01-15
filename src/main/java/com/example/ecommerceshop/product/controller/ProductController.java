@@ -3,13 +3,14 @@ package com.example.ecommerceshop.product.controller;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductController {
  private final ProductService productService;
 
@@ -17,7 +18,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/view")
+    @GetMapping()
     public List<Product> findAllProducts(){
         return productService.findAllProducts();
     }
