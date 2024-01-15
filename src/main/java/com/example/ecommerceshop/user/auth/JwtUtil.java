@@ -75,8 +75,15 @@ public class JwtUtil {
 
     public boolean validateClaims(Claims claims) throws AuthenticationException {
         try {
+            if(claims == null || claims.getExpiration() == null){
+                throw new IllegalArgumentException("Invalid claims or expiration");
+            }
             return claims.getExpiration().after(new Date());
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
+            log.error("Expired JWT Exception");
+            throw e;
+        } catch(Exception e){
+            log.error("Authentication exception");
             throw e;
         }
     }
