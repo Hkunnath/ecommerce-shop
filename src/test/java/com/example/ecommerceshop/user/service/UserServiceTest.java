@@ -27,6 +27,7 @@ class UserServiceTest {
     UserRepository userRepository;
     @Mock
     JwtUtil jwtUtil;
+
     @Mock
     BCryptPasswordEncoder passwordEncoder;
     @InjectMocks
@@ -92,12 +93,15 @@ class UserServiceTest {
         when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(false);
 
+
         Exception exception = assertThrows(UserNotFoundException.class, () -> {
             userService.loginUser(loginRequest);
         });
 
+
         String expectedMessage = "Incorrect password";
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
+
     }
 }

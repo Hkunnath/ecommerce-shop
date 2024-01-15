@@ -19,6 +19,7 @@ class UserControllerTest {
     UserService mockuserService;
     @InjectMocks
     UserController userController;
+
     @Test
     void ShouldCreateSuccessfully(){
         final String userName = "testName";
@@ -30,6 +31,7 @@ class UserControllerTest {
         final UserDto userDto = userController.registerUser(signupRequest);
         assertEquals(expected, userDto);
     }
+
     @Test
     void ShouldLoginSuccesfully(){
         final String userName = "testName";
@@ -40,4 +42,5 @@ class UserControllerTest {
         final UserDto userDto = userController.loginUser(loginRequest);
         assertEquals(expected,userDto);
     }
+
 }
