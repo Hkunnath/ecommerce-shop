@@ -11,17 +11,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
     @Mock
     UserService mockuserService;
-
     @InjectMocks
     UserController userController;
-
     @Test
     void ShouldCreateSuccessfully(){
         final String userName = "testName";
@@ -33,7 +30,6 @@ class UserControllerTest {
         final UserDto userDto = userController.registerUser(signupRequest);
         assertEquals(expected, userDto);
     }
-
     @Test
     void ShouldLoginSuccesfully(){
         final String userName = "testName";
@@ -42,19 +38,6 @@ class UserControllerTest {
         final LoginRequest loginRequest = LoginRequest.builder().username(userName).build();
         when(mockuserService.loginUser(loginRequest)).thenReturn(expected);
         final UserDto userDto = userController.loginUser(loginRequest);
-        assertEquals(expected,userDto);
-    }
-
-    @Test
-    //Test fail situation for understanding purposes - mocking with loginrequest but calling with loginrequest1
-    void loginShouldFailLoginSuccesfully(){
-        final String userName = "testName";
-        final String password = "password";
-        UserDto expected = new UserDto(userName,1,"jwt");
-        final LoginRequest loginRequest = LoginRequest.builder().username(userName).build();
-        final LoginRequest loginRequest1 = LoginRequest.builder().username(userName).password(password).build();
-        when(mockuserService.loginUser(loginRequest)).thenReturn(expected);
-        final UserDto userDto = userController.loginUser(loginRequest1);
         assertEquals(expected,userDto);
     }
 }
