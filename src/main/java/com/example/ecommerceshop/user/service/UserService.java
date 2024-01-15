@@ -35,7 +35,8 @@ public class UserService {
         if (!user.isPresent()) {
             log.error("User not found");
             throw new UserNotFoundException("User not found");
-        }if(!passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())){
+        }
+        if(!passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())){
             log.info("Password is incorrect");
             throw new UserNotFoundException("Incorrect password");
         }
