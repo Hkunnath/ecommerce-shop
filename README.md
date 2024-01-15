@@ -8,3 +8,10 @@ an initial logging setup to monitor application behavior.
 Started working to setup a platform for user to ensure safety of users personal information 
 and access to the platform.
 
+Created user registartion endpoint
+Configured basic security 
+Configured spring security with jwtToken.
+Created login endpoint and its working successfully.
+Implemented simple Global Exception Handler.
+Completed Unit testing.
+
