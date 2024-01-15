@@ -8,7 +8,9 @@ an initial logging setup to monitor application behavior.
 Started working to setup a platform for user to ensure safety of users personal information 
 and access to the platform.
 
+
 Created user registartion endpoint
 Configured basic security 
 Configured spring security with jwttoken
 Created login endpoint and its working successfully
+

@@ -1,5 +1,6 @@
 package com.example.ecommerceshop.user.service;
 
+
 import com.example.ecommerceshop.user.exception.UserNotFoundException;
 import com.example.ecommerceshop.user.auth.JwtUtil;
 import com.example.ecommerceshop.user.dto.request.LoginRequest;
@@ -42,5 +43,6 @@ public class UserService {
         }
         final String token = jwtUtil.createToken(user.get());
         return new UserDto(user.get().getUsername(), user.get().getId(), token);
+
     }
 }
