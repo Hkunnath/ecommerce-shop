@@ -15,3 +15,6 @@ Created login endpoint and its working successfully.
 Implemented simple Global Exception Handler.
 Completed Unit testing.
 
+Created Product Model.
+Created Product Listing and Addition Endpoint.
+

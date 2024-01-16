@@ -15,14 +15,14 @@ public class Product {
 
     private String productDecription;
     @NotBlank
-    private float productPrice;
+    private double productPrice;
 
     private Integer stockQuantity;
 
     public Product() {
     }
 
-    public Product(String productName, String productDecription, float productPrice, Integer stockQuantity) {
+    public Product(String productName, String productDecription, double productPrice, Integer stockQuantity) {
         this.productName = productName;
         this.productDecription = productDecription;
         this.productPrice = productPrice;
@@ -53,11 +53,11 @@ public class Product {
         this.productDecription = productDecription;
     }
 
-    public float getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(float productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
