@@ -10,5 +10,4 @@ public class ProductDetailsDto {
     private String productDescription;
     private double productPrice;
     private Integer stockQuantity;
-    private Integer productId;
 }

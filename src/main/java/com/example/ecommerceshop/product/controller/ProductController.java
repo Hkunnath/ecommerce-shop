@@ -4,6 +4,9 @@ import com.example.ecommerceshop.product.dto.response.ProductDto;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +25,18 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ProductDto addProduct(@RequestBody ProductDetailsDto productDetailsDto) {
         return productService.addProduct(productDetailsDto);
+    }
+
+    @PutMapping("/{id}")
+    public ProductDto updateProduct(@RequestBody ProductDetailsDto productDetailsDto, @PathVariable Integer id){
+        return productService.updateProduct(productDetailsDto,id);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
+        productService.deleteProduct(id);
+        return new ResponseEntity<>("Product Deleted",HttpStatus.OK);
     }
 }
