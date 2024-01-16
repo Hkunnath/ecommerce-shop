@@ -17,5 +17,6 @@ Completed Unit testing.
 
 Created Product Model.
 Created Product Listing and Addition Endpoint.
-Created Product Update Endpoint.
+Created Product Update Endpoint
+Created Product Deletion Endpoint.
 

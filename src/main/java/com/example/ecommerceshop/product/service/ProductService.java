@@ -7,6 +7,8 @@ import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +46,16 @@ public class ProductService {
         productRepository.save(actualProduct);
         log.info("Product Updated Successfully");
         return new ProductDto(actualProduct.getId(), actualProduct.getProductName());
+    }
+
+    public ResponseEntity<String> deleteProduct(Integer id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (!product.isPresent()) {
+            log.error("Product not found");
+            throw new ProductNotFoundException();
+        }
+        productRepository.delete(product.get());
+        log.info("Product Deleted Successfully");
+        return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
     }
 }
