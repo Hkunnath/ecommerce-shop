@@ -17,9 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class JwtUtil {
-
     private long accessTokenValidity = 60 * 60 * 1000;
-
     private final JwtParser jwtParser;
 
     private final String TOKEN_HEADER = "Authorization";
@@ -33,8 +31,11 @@ public class JwtUtil {
     }
 
     public String createToken(User user) {
-        Claims claims = Jwts.claims().subject(user.getEmail())
-                .add("username", user.getUsername()).build();
+        Claims claims = Jwts.claims().subject(user.getUsername())
+                .add("email",user.getEmail())
+                .add("role",user.getRole()).build();
+
+
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         log.info("JWT created");
@@ -45,7 +46,8 @@ public class JwtUtil {
     }
 
     private Claims parseJwtClaims(String token) {
-        return jwtParser.parseSignedClaims(token).getPayload();
+        return
+                jwtParser.parseSignedClaims(token).getPayload();
     }
 
     public Claims resolveClaims(HttpServletRequest req) {
@@ -75,14 +77,14 @@ public class JwtUtil {
 
     public boolean validateClaims(Claims claims) throws AuthenticationException {
         try {
-            if(claims == null || claims.getExpiration() == null){
+            if (claims == null || claims.getExpiration() == null) {
                 throw new IllegalArgumentException("Invalid claims or expiration");
             }
             return claims.getExpiration().after(new Date());
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT Exception");
             throw e;
-        } catch(Exception e){
+        } catch (Exception e) {
             log.error("Authentication exception");
             throw e;
         }

@@ -4,6 +4,7 @@ import com.example.ecommerceshop.product.dto.response.ProductDto;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.service.ProductService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class ProductController {
 
     @GetMapping
     public List<Product> findAllProducts() {
+
         return productService.findAllProducts();
     }
 
