@@ -5,7 +5,6 @@ import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.service.ProductService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

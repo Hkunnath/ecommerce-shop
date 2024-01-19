@@ -1,6 +1,9 @@
 package com.example.ecommerceshop.user.auth;
 
 import com.example.ecommerceshop.user.dto.response.ErrorDetails;
+import com.example.ecommerceshop.user.model.User;
+import com.example.ecommerceshop.user.service.CustomUserDetails;
+import com.example.ecommerceshop.user.service.CustomUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -14,11 +17,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -26,10 +30,10 @@ import java.util.ArrayList;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final ObjectMapper mapper;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         try {
             String accessToken = jwtUtil.resolveToken(request);
             if (accessToken == null) {
@@ -41,9 +45,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (claims != null & jwtUtil.validateClaims(claims)) {
                 String username = claims.getSubject();
+                String role = (String)claims.get("role");
+                log.info("role" + role);
                 log.info("username : " + username);
+                UserDetails user = customUserDetailsService.loadUserByUsername(username);
                 Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(username, "", new ArrayList<>());
+                        new UsernamePasswordAuthenticationToken(username, "", user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 

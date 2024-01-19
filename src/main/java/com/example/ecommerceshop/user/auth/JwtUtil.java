@@ -17,9 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class JwtUtil {
-
     private long accessTokenValidity = 60 * 60 * 1000;
-
     private final JwtParser jwtParser;
 
     private final String TOKEN_HEADER = "Authorization";
@@ -33,13 +31,14 @@ public class JwtUtil {
     }
 
     public String createToken(User user) {
-        Claims claims = Jwts.claims().subject(user.getEmail())
-                .add("username", user.getUsername()).build();
+        Claims claims = Jwts.claims().subject(user.getUsername()).build();
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         log.info("JWT created");
         return Jwts.builder()
                 .claims(claims)
+                .claim("email",user.getEmail())
+                .claim("role",user.getRole())
                 .expiration(tokenValidity).signWith(key)
                 .compact();
     }
@@ -75,25 +74,17 @@ public class JwtUtil {
 
     public boolean validateClaims(Claims claims) throws AuthenticationException {
         try {
-            if(claims == null || claims.getExpiration() == null){
+            if (claims == null || claims.getExpiration() == null) {
                 throw new IllegalArgumentException("Invalid claims or expiration");
             }
             return claims.getExpiration().after(new Date());
         } catch (ExpiredJwtException e) {
             log.error("Expired JWT Exception");
             throw e;
-        } catch(Exception e){
+        } catch (Exception e) {
             log.error("Authentication exception");
             throw e;
         }
-    }
-
-    public String getEmail(Claims claims) {
-        return claims.getSubject();
-    }
-
-    private List<String> getRoles(Claims claims) {
-        return (List<String>) claims.get("roles");
     }
 }
 
