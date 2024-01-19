@@ -1,8 +1,12 @@
 package com.example.ecommerceshop.product.model;
 
+import com.example.ecommerceshop.cart.model.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jdk.jfr.DataAmount;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="products")
@@ -23,6 +27,14 @@ public class Product {
     }
 
     public Product(String productName, String productDecription, double productPrice, Integer stockQuantity) {
+        this.productName = productName;
+        this.productDecription = productDecription;
+        this.productPrice = productPrice;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public Product(Integer id, String productName, String productDecription, double productPrice, Integer stockQuantity) {
+        this.id = id;
         this.productName = productName;
         this.productDecription = productDecription;
         this.productPrice = productPrice;
