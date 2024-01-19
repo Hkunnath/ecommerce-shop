@@ -45,7 +45,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (claims != null & jwtUtil.validateClaims(claims)) {
                 String username = claims.getSubject();
-                String role = (String) claims.get("roles");
+                String role = (String)claims.get("role");
                 log.info("role" + role);
                 log.info("username : " + username);
                 UserDetails user = customUserDetailsService.loadUserByUsername(username);

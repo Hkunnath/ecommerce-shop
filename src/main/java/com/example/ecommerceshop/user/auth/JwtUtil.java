@@ -31,23 +31,20 @@ public class JwtUtil {
     }
 
     public String createToken(User user) {
-        Claims claims = Jwts.claims().subject(user.getUsername())
-                .add("email",user.getEmail())
-                .add("role",user.getRole()).build();
-
-
+        Claims claims = Jwts.claims().subject(user.getUsername()).build();
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         log.info("JWT created");
         return Jwts.builder()
                 .claims(claims)
+                .claim("email",user.getEmail())
+                .claim("role",user.getRole())
                 .expiration(tokenValidity).signWith(key)
                 .compact();
     }
 
     private Claims parseJwtClaims(String token) {
-        return
-                jwtParser.parseSignedClaims(token).getPayload();
+        return jwtParser.parseSignedClaims(token).getPayload();
     }
 
     public Claims resolveClaims(HttpServletRequest req) {
@@ -88,14 +85,6 @@ public class JwtUtil {
             log.error("Authentication exception");
             throw e;
         }
-    }
-
-    public String getEmail(Claims claims) {
-        return claims.getSubject();
-    }
-
-    private List<String> getRoles(Claims claims) {
-        return (List<String>) claims.get("roles");
     }
 }
 

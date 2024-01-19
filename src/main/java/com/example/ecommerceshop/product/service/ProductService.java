@@ -10,10 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -22,7 +20,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public List<Product> findAllProducts() {
-
         return productRepository.findAll();
     }
 
