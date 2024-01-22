@@ -1,6 +1,6 @@
 package com.example.ecommerceshop.product.controller;
 
-import com.example.ecommerceshop.product.dto.response.ProductDto;
+import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.service.ProductService;
@@ -24,13 +24,18 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
+    @GetMapping({"/{id}"})
+    public ProductResponseDto findProduct(@PathVariable Integer id){
+        return productService.findProduct(id);
+    }
+
     @PostMapping
-    public ProductDto addProduct(@RequestBody ProductDetailsDto productDetailsDto) {
+    public ProductResponseDto addProduct(@RequestBody ProductDetailsDto productDetailsDto) {
         return productService.addProduct(productDetailsDto);
     }
 
     @PutMapping("/{id}")
-    public ProductDto updateProduct(@RequestBody ProductDetailsDto productDetailsDto, @PathVariable Integer id){
+    public ProductResponseDto updateProduct(@RequestBody ProductDetailsDto productDetailsDto, @PathVariable Integer id){
         return productService.updateProduct(productDetailsDto,id);
     }
     @DeleteMapping("/{id}")
