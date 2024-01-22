@@ -39,7 +39,7 @@ class JwtUtilTest {
 
         Claims claims = Jwts.claims().subject(mockUser.getUsername()).build();
         Date tokenCreateTime = new Date();
-        long accessTokenValidity = 60 * 60 * 1000;
+        long accessTokenValidity = 60 ;
 
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
 

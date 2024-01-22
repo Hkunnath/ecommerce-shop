@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class JwtUtil {
-    private long accessTokenValidity = 60 * 60 * 1000;
+    private long accessTokenValidity = 60 * 7;
     private final JwtParser jwtParser;
 
     private final String TOKEN_HEADER = "Authorization";
