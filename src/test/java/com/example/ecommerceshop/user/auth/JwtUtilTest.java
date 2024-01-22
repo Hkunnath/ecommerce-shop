@@ -11,8 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -20,20 +24,20 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(
+classes = {JwtUtil.class})
 class JwtUtilTest {
 
     @Mock
     private User mockUser;
-    private Key mockKey;
 
-    @InjectMocks
+    @Autowired
     private JwtUtil jwtUtil;
+    private SecretKey secretKey;
 
     @BeforeEach
     void setUp(){
-        String secretKey = "testSecretKey";
-        mockKey = Keys.hmacShaKeyFor(secretKey.getBytes());
+        secretKey = Keys.hmacShaKeyFor("MY=SUPER=SECRET=CODE123=333====2323=123==452345=6756=76=".getBytes());
     }
 
     @Test
@@ -53,7 +57,7 @@ class JwtUtilTest {
                 .claims(claims)
                 .claim("email", mockUser.getEmail())
                 .claim("role", mockUser.getRole())
-                .expiration(tokenValidity).signWith(mockKey)
+                .expiration(tokenValidity).signWith(secretKey)
                 .compact();
 
         assertEquals(token,returnString);
