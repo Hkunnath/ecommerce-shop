@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 
 
-
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
