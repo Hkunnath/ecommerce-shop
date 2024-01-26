@@ -24,11 +24,15 @@ public class Cart {
     @Column(name = "total_cost" )
     private double totalCost;
 
+    @OneToMany( cascade = CascadeType.ALL)
+    @JoinColumn(name = "cartId")
+    private List<CartItem> cartItems;
+
     public Cart() {
     }
 
-    public Cart(Integer userId, double totalCost) {
-        this.userId = userId;
+    public Cart( Integer userId,double totalCost) {
+        this.userId =userId;
         this.totalCost = totalCost;
     }
 }

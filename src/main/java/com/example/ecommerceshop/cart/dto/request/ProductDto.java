@@ -1,4 +1,4 @@
-package com.example.ecommerceshop.cart.dto;
+package com.example.ecommerceshop.cart.dto.request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class ProductDto {
     private Integer productId;
-    private String productName;
     private Integer productQty;
+    private Double totalCost;
 }
