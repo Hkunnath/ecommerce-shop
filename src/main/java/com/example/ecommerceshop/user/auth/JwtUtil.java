@@ -20,7 +20,7 @@ public class JwtUtil {
     private long accessTokenValidity = 60 * 7;
     private final JwtParser jwtParser;
 
-    private final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
 
     private final SecretKey key;
@@ -37,14 +37,15 @@ public class JwtUtil {
         log.info("JWT created");
         return Jwts.builder()
                 .claims(claims)
+                .claim("user_id",user.getId())
                 .claim("email",user.getEmail())
                 .claim("role",user.getRole())
                 .expiration(tokenValidity).signWith(key)
                 .compact();
     }
 
-    private Claims parseJwtClaims(String token) {
-        return jwtParser.parseSignedClaims(token).getPayload();
+    public Integer getUserIdFromToken(String token){
+        return (Integer) parseJwtClaims(token).get("user_id");
     }
 
     public Claims resolveClaims(HttpServletRequest req) {
@@ -66,8 +67,12 @@ public class JwtUtil {
     public String resolveToken(HttpServletRequest request) {
 
         String bearerToken = request.getHeader(TOKEN_HEADER);
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
-            return bearerToken.substring(TOKEN_PREFIX.length());
+        return getToken(bearerToken);
+    }
+
+    public String getToken(final String token){
+        if (token != null && token.startsWith(TOKEN_PREFIX)) {
+            return token.substring(TOKEN_PREFIX.length());
         }
         return null;
     }
@@ -85,6 +90,11 @@ public class JwtUtil {
             log.error("Authentication exception");
             throw e;
         }
+    }
+
+
+    private Claims parseJwtClaims(String token) {
+        return jwtParser.parseSignedClaims(token).getPayload();
     }
 }
 
