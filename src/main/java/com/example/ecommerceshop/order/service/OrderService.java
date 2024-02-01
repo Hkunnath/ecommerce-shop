@@ -9,8 +9,10 @@ import com.example.ecommerceshop.order.repository.OrderRepository;
 import com.example.ecommerceshop.user.auth.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -21,14 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final JwtUtil jwtUtil;
-    public void getOrder(String bearerToken) {
-        final String token = jwtUtil.getToken(bearerToken);
-        final Integer userId = jwtUtil.getUserIdFromToken(token);
-        log.info("User id" + userId);
-        Optional<Order> order = orderRepository.findByUserId(userId);
-        if(order.isEmpty()){
-            log.info("no orders yet");
-            }
-        }
-}
+    public void getOrder(Principal principal) {
+        String currentUserName = principal.getName();
+        log.info("User name" + currentUserName);
+}}
