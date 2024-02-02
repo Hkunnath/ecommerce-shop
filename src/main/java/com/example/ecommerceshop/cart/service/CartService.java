@@ -24,7 +24,6 @@ public class CartService {
     private final CartRepository cartRepository;
     private final JwtUtil jwtUtil;
     private final CartTransformer cartTransformer;
-    private final ProductService productService;
 
     public CartDto getCart(String bearerToken) {
         final String token = jwtUtil.getToken(bearerToken);

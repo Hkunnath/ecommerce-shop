@@ -4,10 +4,12 @@ import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.service.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,12 +22,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> findAllProducts() {
-        return productService.findAllProducts();
+    public Page<Product> findAllProducts(@RequestParam int page, @RequestParam int size) {
+        return productService.findAllProducts(page, size);
     }
 
     @GetMapping({"/{id}"})
-    public ProductResponseDto findProduct(@PathVariable Integer id){
+    public ProductResponseDto findProduct(@PathVariable Integer id) {
         return productService.findProduct(id);
     }
 
@@ -35,12 +37,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductResponseDto updateProduct(@RequestBody ProductDetailsDto productDetailsDto, @PathVariable Integer id){
-        return productService.updateProduct(productDetailsDto,id);
+    public ProductResponseDto updateProduct(@RequestBody ProductDetailsDto productDetailsDto, @PathVariable Integer id) {
+        return productService.updateProduct(productDetailsDto, id);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>("Product Deleted",HttpStatus.OK);
+        return new ResponseEntity<>("Product Deleted", HttpStatus.OK);
     }
 }

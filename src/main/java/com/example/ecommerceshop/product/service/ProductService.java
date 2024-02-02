@@ -7,11 +7,12 @@ import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -20,8 +21,9 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> findAllProducts(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return productRepository.findAll(paging);
     }
 
     public ProductResponseDto addProduct(ProductDetailsDto productDetailsDto) {
@@ -33,7 +35,7 @@ public class ProductService {
                 .productName(product.getProductName())
                 .productPrice(product.getProductPrice())
                 .stockQuantity(product.getStockQuantity())
-                .productDescription(product.getProductDecription())
+                .productDescription(product.getProductDescription())
                 .build();
     }
 
@@ -45,7 +47,7 @@ public class ProductService {
         }
         Product actualProduct = product.get();
         actualProduct.setProductName(productDetailsDto.getProductName());
-        actualProduct.setProductDecription(productDetailsDto.getProductDescription());
+        actualProduct.setProductDescription(productDetailsDto.getProductDescription());
         actualProduct.setProductPrice(productDetailsDto.getProductPrice());
         actualProduct.setStockQuantity(productDetailsDto.getStockQuantity());
         productRepository.save(actualProduct);
@@ -55,7 +57,7 @@ public class ProductService {
                 .productName(actualProduct.getProductName())
                 .productPrice(actualProduct.getProductPrice())
                 .stockQuantity(actualProduct.getStockQuantity())
-                .productDescription(actualProduct.getProductDecription())
+                .productDescription(actualProduct.getProductDescription())
                 .build();
     }
 
@@ -81,7 +83,7 @@ public class ProductService {
                 .productName(product.get().getProductName())
                 .productPrice(product.get().getProductPrice())
                 .stockQuantity(product.get().getStockQuantity())
-                .productDescription(product.get().getProductDecription())
+                .productDescription(product.get().getProductDescription())
                 .build();
     }
 }
