@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> findAllProducts(@RequestParam int page, @RequestParam int size) {
+    public Page<Product> findAllProducts(@RequestParam int page, @RequestParam int size) {
         return productService.findAllProducts(page, size);
     }
 

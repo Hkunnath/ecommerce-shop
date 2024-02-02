@@ -3,7 +3,6 @@ package com.example.ecommerceshop.product.service;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.exception.ProductNotFoundException;
-import com.example.ecommerceshop.product.mapper.ProductPageTransformer;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,13 +20,10 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ProductPageTransformer productPageTransformer;
 
-    public List<Product> findAllProducts(int page, int size) {
+    public Page<Product> findAllProducts(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
-        Page<Product> productsPage = productRepository.findAll(paging);
-        List<Product> productList = productPageTransformer.toDtos(productsPage);
-        return productList;
+        return productRepository.findAll(paging);
     }
 
     public ProductResponseDto addProduct(ProductDetailsDto productDetailsDto) {
