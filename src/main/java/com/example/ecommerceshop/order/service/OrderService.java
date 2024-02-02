@@ -26,4 +26,11 @@ public class OrderService {
     public void getOrder(Principal principal) {
         String currentUserName = principal.getName();
         log.info("User name" + currentUserName);
-}}
+}
+
+    public void createOrder(Principal principal) {
+        String currentUserName = principal.getName();
+        log.info("User name" + currentUserName);
+
+    }
+}
