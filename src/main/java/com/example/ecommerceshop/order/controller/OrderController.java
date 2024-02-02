@@ -1,6 +1,7 @@
 package com.example.ecommerceshop.order.controller;
 
 import com.example.ecommerceshop.order.service.OrderService;
+import com.example.ecommerceshop.user.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,12 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public void getOrder(Principal principal){
-        orderService.getOrder(principal);
-    }
-
-    @PostMapping
-    public void createOrder(Principal principal){
-        orderService.createOrder(principal);
+    public void getOrder(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails instanceof CustomUserDetails) {
+            orderService.getOrder((CustomUserDetails) userDetails);
+        }
     }
 }

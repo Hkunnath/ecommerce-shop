@@ -14,11 +14,13 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
     private boolean enabled;
+    private Integer userId;
     private List<GrantedAuthority> authorities;
 
     public CustomUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
+        this.userId = user.getId();
         this.authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
     }
 
@@ -55,5 +57,13 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
