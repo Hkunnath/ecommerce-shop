@@ -24,4 +24,9 @@ public class CartController {
         final CartDto cart = cartService.getCart((CustomUserDetails) userDetails);
         return ResponseEntity.ok(cart);
     }
+
+    @PostMapping
+    public void createCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CartRequestDto cartRequestDto){
+        cartService.createCart((CustomUserDetails) userDetails,cartRequestDto);
+    }
 }

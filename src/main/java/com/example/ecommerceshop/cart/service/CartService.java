@@ -6,9 +6,6 @@ import com.example.ecommerceshop.cart.mapper.CartTransformer;
 import com.example.ecommerceshop.cart.model.Cart;
 import com.example.ecommerceshop.cart.model.CartItem;
 import com.example.ecommerceshop.cart.repository.CartRepository;
-import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
-import com.example.ecommerceshop.product.service.ProductService;
-import com.example.ecommerceshop.user.auth.JwtUtil;
 import com.example.ecommerceshop.user.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +31,13 @@ public class CartService {
             return cartTransformer.toDto(newCreatedCart);
         }
         return cartTransformer.toDto(cart.get());
+    }
+
+    public void createCart(CustomUserDetails customUserDetails, CartRequestDto cartRequestDto) {
+        final Integer userId = customUserDetails.getUserId();
+        Cart cart = new Cart(userId,0);
+//        List<CartItem> cartItems = cartRequestDto.getProductList().stream().map(
+//        )
+
     }
 }
