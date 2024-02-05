@@ -9,6 +9,7 @@ import com.example.ecommerceshop.cart.repository.CartRepository;
 import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.service.ProductService;
 import com.example.ecommerceshop.user.auth.JwtUtil;
+import com.example.ecommerceshop.user.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CartService {
     private final CartRepository cartRepository;
-    private final JwtUtil jwtUtil;
     private final CartTransformer cartTransformer;
 
-    public CartDto getCart(String bearerToken) {
-        final String token = jwtUtil.getToken(bearerToken);
-        final Integer userId = jwtUtil.getUserIdFromToken(token);
+    public CartDto getCart(CustomUserDetails customUserDetails) {
+        final Integer userId = customUserDetails.getUserId();
         Optional<Cart> cart = cartRepository.findByUserId(userId);
         if (cart.isEmpty()) {
             log.info("cart is empty");
