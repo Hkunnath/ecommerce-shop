@@ -23,9 +23,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderService {
-    private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
     public void getOrder(CustomUserDetails customUserDetails) {
         Integer userId = customUserDetails.getUserId();
         log.info("User Id" + userId);
 }
+
+    public void createOrder(CustomUserDetails customUserDetails) {
+        Integer userId = customUserDetails.getUserId();
+        log.info("User Id" + userId);
+        Optional<Cart> cart = cartRepository.findByUserId(userId);
+        if(cart.isEmpty()){
+            log.info("cart is empty");
+        }
+
+    }
 }

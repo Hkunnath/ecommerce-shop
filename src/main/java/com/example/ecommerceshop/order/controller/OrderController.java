@@ -25,4 +25,11 @@ public class OrderController {
             orderService.getOrder((CustomUserDetails) userDetails);
         }
     }
+
+    @PostMapping
+    public void createOrder(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails instanceof CustomUserDetails) {
+            orderService.createOrder((CustomUserDetails) userDetails);
+        }
+    }
 }
