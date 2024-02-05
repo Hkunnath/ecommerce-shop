@@ -6,6 +6,8 @@ import com.example.ecommerceshop.cart.mapper.CartTransformer;
 import com.example.ecommerceshop.cart.model.Cart;
 import com.example.ecommerceshop.cart.model.CartItem;
 import com.example.ecommerceshop.cart.repository.CartRepository;
+import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
+import com.example.ecommerceshop.product.service.ProductService;
 import com.example.ecommerceshop.user.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class CartService {
     private final CartRepository cartRepository;
     private final CartTransformer cartTransformer;
+    private final ProductService productService;
 
     public CartDto getCart(CustomUserDetails customUserDetails) {
         final Integer userId = customUserDetails.getUserId();
@@ -35,9 +39,20 @@ public class CartService {
 
     public void createCart(CustomUserDetails customUserDetails, CartRequestDto cartRequestDto) {
         final Integer userId = customUserDetails.getUserId();
-        Cart cart = new Cart(userId,0);
-//        List<CartItem> cartItems = cartRequestDto.getProductList().stream().map(
-//        )
-
+        double cartTotalCost = cartRequestDto.getProductList().stream().map(
+                productDto -> {
+                    final Integer productId = productDto.getProductId();
+                    ProductResponseDto productResponseDto = productService.findProduct(productId);
+                    productDto.setTotalCost(productResponseDto.getProductPrice() * productDto.getProductQty());
+                    return productDto.getTotalCost();
+                })
+                .mapToDouble(Double::doubleValue).sum();
+        Cart cart = new Cart(userId,cartTotalCost);
+        List<CartItem> cartItems = cartRequestDto.getProductList().stream().map(
+                productDto -> {
+                    return new CartItem(cart.getId(), productDto.getProductId(), productDto.getProductQty(), productDto.getTotalCost());
+                }).collect(Collectors.toList());
+        cart.setCartItems(cartItems);
+        cartRepository.save(cart);
     }
 }
