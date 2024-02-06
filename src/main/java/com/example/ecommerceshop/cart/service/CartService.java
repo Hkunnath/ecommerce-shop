@@ -1,10 +1,12 @@
 package com.example.ecommerceshop.cart.service;
 
 import com.example.ecommerceshop.cart.dto.request.CartRequestDto;
+import com.example.ecommerceshop.cart.dto.request.ProductDto;
 import com.example.ecommerceshop.cart.dto.response.CartDto;
 import com.example.ecommerceshop.cart.mapper.CartTransformer;
 import com.example.ecommerceshop.cart.model.Cart;
 import com.example.ecommerceshop.cart.model.CartItem;
+import com.example.ecommerceshop.cart.repository.CartItemRepository;
 import com.example.ecommerceshop.cart.repository.CartRepository;
 import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.service.ProductService;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +27,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartTransformer cartTransformer;
     private final ProductService productService;
+    private final CartItemRepository cartItemRepository;
 
     public CartDto getCart(CustomUserDetails customUserDetails) {
         final Integer userId = customUserDetails.getUserId();
@@ -49,10 +53,35 @@ public class CartService {
                 .mapToDouble(Double::doubleValue).sum();
         Cart cart = new Cart(userId,cartTotalCost);
         List<CartItem> cartItems = cartRequestDto.getProductList().stream().map(
-                productDto -> {
-                    return new CartItem(cart.getId(), productDto.getProductId(), productDto.getProductQty(), productDto.getTotalCost());
-                }).collect(Collectors.toList());
+                productDto ->
+                    new CartItem(cart.getId(), productDto.getProductId(), productDto.getProductQty(), productDto.getTotalCost())
+                ).collect(Collectors.toList());
         cart.setCartItems(cartItems);
         cartRepository.save(cart);
+    }
+
+
+    public void removeProductsFromCart(CustomUserDetails customUserDetails, ProductDto productDto) {
+        final Integer userId = customUserDetails.getUserId();
+        Optional<Cart> cart = cartRepository.findByUserId(userId);
+        if(cart.isEmpty()){
+            throw new RuntimeException("Cart not found");
+        }
+
+       CartItem cartItemToRemove = null;
+        for(CartItem cartItem : cart.get().getCartItems()){
+            if(cartItem.getProductId().equals(productDto.getProductId())){
+                cartItemToRemove = cartItem;
+                break;
+            }
+        }
+
+        if(cartItemToRemove !=null){
+            cart.get().getCartItems().remove(cartItemToRemove);
+            cartItemRepository.delete(cartItemToRemove);
+            cartRepository.save(cart.get());
+        }else{
+            throw new RuntimeException("Product not found");
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.ecommerceshop.cart.controller;
 
 import com.example.ecommerceshop.cart.dto.request.CartRequestDto;
+import com.example.ecommerceshop.cart.dto.request.ProductDto;
 import com.example.ecommerceshop.cart.dto.response.CartDto;
+import com.example.ecommerceshop.cart.model.CartItem;
 import com.example.ecommerceshop.cart.service.CartService;
 import com.example.ecommerceshop.user.service.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +32,11 @@ public class CartController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CartRequestDto cartRequestDto){
         cartService.createCart((CustomUserDetails) userDetails,cartRequestDto);
+    }
+
+
+    @PutMapping
+    public void removeProductsFromCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto){
+        cartService.removeProductsFromCart((CustomUserDetails) userDetails,productDto);
     }
 }
