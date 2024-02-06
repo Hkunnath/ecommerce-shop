@@ -32,9 +32,7 @@ public class CartService {
         Optional<Cart> cart = cartRepository.findByUserId(userId);
         if (cart.isEmpty()) {
             log.info("cart is empty");
-            Cart newCreatedCart = new Cart(userId, 0);
-            newCreatedCart = cartRepository.save(newCreatedCart);
-            return cartTransformer.toDto(newCreatedCart);
+            return null;
         }
         return cartTransformer.toDto(cart.get());
     }
@@ -72,12 +70,8 @@ public class CartService {
         Product product = productRepository.findById(productDto.getProductId())
                 .orElseThrow(() -> new ProductNotFoundException());
 
-        CartItem newCartItem = new CartItem();
-        newCartItem.setProductId(productDto.getProductId());
-        newCartItem.setQuantity(productDto.getProductQty());
-        newCartItem.setCartItemCost((productDto.getProductQty()) * product.getProductPrice());
-
-
+        double productPrice = product.getProductPrice();
+        CartItem newCartItem = null;
 
         if (!cart.isEmpty()) {
             Optional<CartItem> existingCartItemOptional = cart.get().getCartItems().stream()
@@ -90,6 +84,7 @@ public class CartService {
                 existingCartItem.setCartItemCost(existingCartItem.getCartItemCost() + (productDto.getProductQty()) * product.getProductPrice());
                 cart.get().setTotalCost(cartTotalCost + (productDto.getProductQty()) * product.getProductPrice());
             } else {
+                newCartItem = setNewCartItem(productDto,productPrice);
                 newCartItem.setCartId(cart.get().getId());
                 cart.get().setTotalCost(cartTotalCost + newCartItem.getCartItemCost());
                 cart.get().getCartItems().add(newCartItem);
@@ -98,12 +93,21 @@ public class CartService {
         }else{
             Cart newCart = new Cart(userId, 0);
             ArrayList<CartItem> cartItems = new ArrayList<>();
+            newCartItem = setNewCartItem(productDto,productPrice);
             newCartItem.setCartId(newCart.getId());
             cartItems.add(newCartItem);
             newCart.setCartItems(cartItems);
             newCart.setTotalCost(newCartItem.getCartItemCost());
             cartRepository.save(newCart);
         }
+    }
+
+    private CartItem setNewCartItem(ProductDto productDto,double productPrice){
+        CartItem newCartItem = new CartItem();
+        newCartItem.setProductId(productDto.getProductId());
+        newCartItem.setQuantity(productDto.getProductQty());
+        newCartItem.setCartItemCost((productDto.getProductQty()) * productPrice);
+        return newCartItem;
     }
 }
 
