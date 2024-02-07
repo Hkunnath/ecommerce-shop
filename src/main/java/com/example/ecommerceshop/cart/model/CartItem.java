@@ -32,10 +32,4 @@ public class CartItem {
         this.quantity = quantity;
         this.cartItemCost = cartItemCost;
     }
-
-    public CartItem(Integer productId, Integer productQty, Double totalCost) {
-        this.productId = productId;
-        this.quantity = productQty;
-        this.cartItemCost = totalCost;
-    }
 }
