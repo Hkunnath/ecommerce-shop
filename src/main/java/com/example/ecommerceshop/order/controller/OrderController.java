@@ -8,10 +8,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
-import static com.example.ecommerceshop.user.auth.JwtUtil.TOKEN_HEADER;
-
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
@@ -29,7 +25,7 @@ public class OrderController {
     @PostMapping
     public void createOrder(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails instanceof CustomUserDetails) {
-            orderService.createOrder((CustomUserDetails) userDetails);
+            orderService.placeOrderFromCart((CustomUserDetails) userDetails);
         }
     }
 }

@@ -12,4 +12,5 @@ public interface CartItemTransformer {
     CartItemDto toDto(final CartItem cartItem);
 
     List<CartItemDto> toDtoList(final List<CartItem> cartItems);
+
 }

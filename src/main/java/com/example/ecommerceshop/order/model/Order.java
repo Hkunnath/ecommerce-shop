@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -26,4 +27,12 @@ public class Order {
 
     private OrderStatus status;
 
+    @OneToMany( cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId")
+    private List<OrderItem> orderItems;
+
+    public Order(Integer userId, double totalCost) {
+        this.userId = userId;
+        this.totalCost = totalCost;
+    }
 }
