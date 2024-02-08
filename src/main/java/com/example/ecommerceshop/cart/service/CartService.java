@@ -2,6 +2,7 @@ package com.example.ecommerceshop.cart.service;
 
 import com.example.ecommerceshop.cart.dto.request.ProductDto;
 import com.example.ecommerceshop.cart.dto.response.CartDto;
+import com.example.ecommerceshop.cart.exception.CartNotFoundException;
 import com.example.ecommerceshop.cart.mapper.CartTransformer;
 import com.example.ecommerceshop.cart.model.Cart;
 import com.example.ecommerceshop.cart.model.CartItem;
@@ -32,7 +33,7 @@ public class CartService {
         Optional<Cart> cart = cartRepository.findByUserId(userId);
         if (cart.isEmpty()) {
             log.info("cart is empty");
-            return null;
+            throw new CartNotFoundException("CartNotFoundException");
         }
         return cartTransformer.toDto(cart.get());
     }
@@ -41,7 +42,7 @@ public class CartService {
         final Integer userId = customUserDetails.getUserId();
         Optional<Cart> cart = cartRepository.findByUserId(userId);
         if (cart.isEmpty()) {
-            throw new RuntimeException("Cart not found");
+            throw new CartNotFoundException("CartNotFoundException");
         }
 
         CartItem cartItemToRemove = null;

@@ -1,5 +1,8 @@
 package com.example.ecommerceshop.globalException;
 
+import com.example.ecommerceshop.cart.exception.CartNotFoundException;
+import com.example.ecommerceshop.order.exception.OrderNotFoundException;
+import com.example.ecommerceshop.product.exception.InsufficientStockException;
 import com.example.ecommerceshop.product.exception.ProductNotFoundException;
 import com.example.ecommerceshop.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ProductNotFoundException.class})
     public ResponseEntity<Object> handleProductNotException(ProductNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({InsufficientStockException.class})
+    public ResponseEntity<Object> handleInsufficientStockException(InsufficientStockException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({CartNotFoundException.class})
+    public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception){
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({OrderNotFoundException.class})
+    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }

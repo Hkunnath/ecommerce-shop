@@ -18,14 +18,9 @@ public class OrderItem {
 
     private Integer quantity;
 
+    private Integer productId;
+
     @NotBlank
     @Column(name = "item_cost")
     private double orderItemCost;
-
-    public OrderItem(Integer id, Integer orderId, Integer quantity, double orderItemCost) {
-        this.id = id;
-        this.orderId = orderId;
-        this.quantity = quantity;
-        this.orderItemCost = orderItemCost;
-    }
 }
