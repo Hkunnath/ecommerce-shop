@@ -2,6 +2,7 @@ package com.example.ecommerceshop.product.service;
 
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
+import com.example.ecommerceshop.product.exception.InsufficientStockException;
 import com.example.ecommerceshop.product.exception.ProductNotFoundException;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.repository.ProductRepository;
@@ -85,5 +86,19 @@ public class ProductService {
                 .stockQuantity(product.get().getStockQuantity())
                 .productDescription(product.get().getProductDescription())
                 .build();
+    }
+
+    public void updateProductInventory(Integer id,Integer productQuantity){
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(!optionalProduct.isPresent()){
+            log.error("Product not found");
+            throw new ProductNotFoundException();
+        }
+        if(!(optionalProduct.get().getStockQuantity() >= productQuantity)){
+            throw new InsufficientStockException("Insufficient Stock Exception.Could not process the order");
+        }
+        int currentProductStock = optionalProduct.get().getStockQuantity();
+        optionalProduct.get().setStockQuantity(currentProductStock-productQuantity);
+        productRepository.save(optionalProduct.get());
     }
 }

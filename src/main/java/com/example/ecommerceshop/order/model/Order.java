@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class Order {
     @Column(name = "total_cost")
     private double totalCost;
 
-    private LocalDateTime date;
+    private ZonedDateTime date;
 
     private OrderStatus status;
 
