@@ -64,4 +64,21 @@ public class OrderService {
         orderRepository.save(order);
         cartRepository.delete(optionalCart.get());
     }
+
+    public void changeOrderStatus(Integer orderId, String status) {
+     Optional<Order> optionalOrder = orderRepository.findById(orderId);
+     if(!optionalOrder.isPresent()){
+         throw new OrderNotFoundException();
+     }
+     Order order = optionalOrder.get();
+        try {
+            OrderStatus newStatus = OrderStatus.valueOf(status.toUpperCase());
+           // if (!order.getStatus().equals(newStatus)) {
+                order.setStatus(newStatus);
+                orderRepository.save(order);
+           // }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid status: " + status);
+        }
+    }
 }
