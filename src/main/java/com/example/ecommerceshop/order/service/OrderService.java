@@ -57,11 +57,28 @@ public class OrderService {
         );
         double totalCost = orderItemList.stream().map(OrderItem::getOrderItemCost).mapToDouble(Double::doubleValue).sum();
         order.setOrderItems(orderItemList);
-        order.setStatus(OrderStatus.PLACED);
+        order.setStatus(OrderStatus.ORDER_PLACED);
         order.setDate(ZonedDateTime.now());
         order.setTotalCost(totalCost);
         log.info("Order Placed" + order);
         orderRepository.save(order);
         cartRepository.delete(optionalCart.get());
+    }
+
+    public void changeOrderStatus(Integer orderId, String status) {
+     Optional<Order> optionalOrder = orderRepository.findById(orderId);
+     if(!optionalOrder.isPresent()){
+         throw new OrderNotFoundException();
+     }
+     Order order = optionalOrder.get();
+        try {
+            OrderStatus newStatus = OrderStatus.valueOf(status.toUpperCase());
+           if (!order.getStatus().equals(newStatus)) {
+                order.setStatus(newStatus);
+                orderRepository.save(order);
+           }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid status: " + status);
+        }
     }
 }

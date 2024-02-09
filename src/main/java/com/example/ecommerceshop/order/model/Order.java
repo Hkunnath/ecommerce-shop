@@ -28,6 +28,7 @@ public class Order {
 
     private ZonedDateTime date;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @OneToMany( cascade = CascadeType.ALL)

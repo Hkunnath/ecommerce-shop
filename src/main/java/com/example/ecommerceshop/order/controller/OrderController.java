@@ -33,4 +33,8 @@ public class OrderController {
             orderService.placeOrderFromCart((CustomUserDetails) userDetails);
         }
     }
+    @PutMapping("/changestatus")
+    public void changeOrderStatus(Integer orderId, String status){
+        orderService.changeOrderStatus(orderId,status);
+    }
 }
