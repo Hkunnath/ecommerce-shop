@@ -9,20 +9,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+
 public class UserController {
-  private final UserService userService;
+    private final UserService userService;
 
-  public UserController(UserService userService) {
-    this.userService = userService;
-  }
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-  @PostMapping("/signup")
-  public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    return userService.registerUser(signUpRequest);
-  }
+    @PostMapping("/signup")
+    public UserDto registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        return userService.registerUser(signUpRequest);
+    }
 
-  @PostMapping("/login")
-  public UserDto loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-    return userService.loginUser(loginRequest);
-  }
+    @PostMapping("/login")
+    public UserDto loginUser(@Valid @RequestBody LoginRequest loginRequest){
+        return userService.loginUser(loginRequest);
+    }
 }

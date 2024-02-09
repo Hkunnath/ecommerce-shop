@@ -95,12 +95,7 @@
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format -->
-        <dependency>
-            <groupId>com.google.googlejavaformat</groupId>
-            <artifactId>google-java-format</artifactId>
-            <version>1.19.2</version>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -154,4 +149,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

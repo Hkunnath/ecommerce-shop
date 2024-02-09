@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class OrderItem {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  private Integer orderId;
+    private Integer orderId;
 
-  private Integer quantity;
+    private Integer quantity;
 
-  private Integer productId;
+    private Integer productId;
 
-  @NotBlank
-  @Column(name = "item_cost")
-  private double orderItemCost;
+    @NotBlank
+    @Column(name = "item_cost")
+    private double orderItemCost;
 }

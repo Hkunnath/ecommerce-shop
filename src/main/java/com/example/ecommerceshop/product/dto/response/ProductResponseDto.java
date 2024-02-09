@@ -6,9 +6,10 @@ import lombok.Data;
 @Builder
 @Data
 public class ProductResponseDto {
-  private Integer productId;
-  private String productName;
-  private Double productPrice;
-  private Integer stockQuantity;
-  private String productDescription;
+    private Integer productId;
+    private String productName;
+    private Double productPrice;
+    private Integer stockQuantity;
+    private String productDescription;
+
 }

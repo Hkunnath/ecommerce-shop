@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class ProductDetailsDto {
-  private String productName;
-  private String productDescription;
-  private double productPrice;
-  private Integer stockQuantity;
+    private String productName;
+    private String productDescription;
+    private double productPrice;
+    private Integer stockQuantity;
 }

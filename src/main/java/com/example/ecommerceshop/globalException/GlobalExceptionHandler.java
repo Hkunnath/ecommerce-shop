@@ -12,29 +12,30 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  @ExceptionHandler({UserNotFoundException.class})
-  public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-  }
+    @ExceptionHandler({UserNotFoundException.class})
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(exception.getMessage());
+    }
 
-  @ExceptionHandler({ProductNotFoundException.class})
-  public ResponseEntity<Object> handleProductNotException(ProductNotFoundException exception) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-  }
+    @ExceptionHandler({ProductNotFoundException.class})
+    public ResponseEntity<Object> handleProductNotException(ProductNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 
-  @ExceptionHandler({InsufficientStockException.class})
-  public ResponseEntity<Object> handleInsufficientStockException(
-      InsufficientStockException exception) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-  }
+    @ExceptionHandler({InsufficientStockException.class})
+    public ResponseEntity<Object> handleInsufficientStockException(InsufficientStockException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 
-  @ExceptionHandler({CartNotFoundException.class})
-  public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception) {
+    @ExceptionHandler({CartNotFoundException.class})
+    public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-  }
+    }
 
-  @ExceptionHandler({OrderNotFoundException.class})
-  public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-  }
+    @ExceptionHandler({OrderNotFoundException.class})
+    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 }
