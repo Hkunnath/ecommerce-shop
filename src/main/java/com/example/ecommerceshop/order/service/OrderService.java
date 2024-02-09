@@ -46,7 +46,7 @@ public class OrderService {
         log.info("User Id" + userId);
         Optional<Cart> optionalCart = cartRepository.findByUserId(userId);
         if (optionalCart.isEmpty()) {
-            log.error("No Cart found for associated userId " + userId);
+            log.error(String.format("No Cart found for userID %d ", userId));
             throw new CartNotFoundException(String.format("No Cart found for userID %d ", userId));
         }
         Order order = new Order(userId, 0);
@@ -61,7 +61,7 @@ public class OrderService {
         order.setDate(ZonedDateTime.now());
         order.setTotalCost(totalCost);
         orderRepository.save(order);
-        log.info("Order Placed" + order);
+        log.info(String.format("Order Placed %s",order));
         cartRepository.delete(optionalCart.get());
         log.info("Associated Cart got deleted");
     }
@@ -79,7 +79,7 @@ public class OrderService {
                 orderRepository.save(order);
            }
         } catch (IllegalArgumentException e) {
-            log.error("Invalid status: " + status);
+            log.error(String.format("Invalid status: %s",status));
         }
     }
 }
