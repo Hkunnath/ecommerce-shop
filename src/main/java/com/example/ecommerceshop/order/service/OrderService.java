@@ -73,10 +73,10 @@ public class OrderService {
      Order order = optionalOrder.get();
         try {
             OrderStatus newStatus = OrderStatus.valueOf(status.toUpperCase());
-           // if (!order.getStatus().equals(newStatus)) {
+           if (!order.getStatus().equals(newStatus)) {
                 order.setStatus(newStatus);
                 orderRepository.save(order);
-           // }
+           }
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid status: " + status);
         }
