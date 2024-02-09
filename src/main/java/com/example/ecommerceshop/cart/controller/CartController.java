@@ -12,27 +12,29 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/carts")
 @RequiredArgsConstructor
 @Slf4j
 public class CartController {
-    private final CartService cartService;
+  private final CartService cartService;
 
-    @GetMapping
-    public ResponseEntity<CartDto> getCart(@AuthenticationPrincipal UserDetails userDetails){
-        final CartDto cart = cartService.getCart((CustomUserDetails) userDetails);
-        return ResponseEntity.ok(cart);
-    }
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addProductsToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto){
-        cartService.addProductsToCart((CustomUserDetails) userDetails,productDto);
-    }
+  @GetMapping
+  public ResponseEntity<CartDto> getCart(@AuthenticationPrincipal UserDetails userDetails) {
+    final CartDto cart = cartService.getCart((CustomUserDetails) userDetails);
+    return ResponseEntity.ok(cart);
+  }
 
-    @PutMapping
-    public void removeProductsFromCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto){
-        cartService.removeProductsFromCart((CustomUserDetails) userDetails,productDto);
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public void addProductsToCart(
+      @AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto) {
+    cartService.addProductsToCart((CustomUserDetails) userDetails, productDto);
+  }
+
+  @PutMapping("/removeproduct")
+  public void removeProductsFromCart(
+      @AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto) {
+    cartService.removeProductsFromCart((CustomUserDetails) userDetails, productDto);
+  }
 }

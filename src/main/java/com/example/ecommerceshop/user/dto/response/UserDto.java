@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 public class UserDto {
-    private final String username;
-    private final Integer userId;
-    private final String jwt;
+  private final String username;
+  private final Integer userId;
+  private final String jwt;
 }
