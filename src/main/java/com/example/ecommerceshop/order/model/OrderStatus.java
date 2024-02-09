@@ -1,7 +1,7 @@
 package com.example.ecommerceshop.order.model;
 
 public enum OrderStatus {
-    PLACED,
-    SHIPPED,
-    DELIVERED
+    ORDER_PLACED,
+    ORDER_SHIPPED,
+    ORDER_DELIVERED
 }

@@ -57,7 +57,7 @@ public class OrderService {
         );
         double totalCost = orderItemList.stream().map(OrderItem::getOrderItemCost).mapToDouble(Double::doubleValue).sum();
         order.setOrderItems(orderItemList);
-        order.setStatus(OrderStatus.PLACED);
+        order.setStatus(OrderStatus.ORDER_PLACED);
         order.setDate(ZonedDateTime.now());
         order.setTotalCost(totalCost);
         log.info("Order Placed" + order);
