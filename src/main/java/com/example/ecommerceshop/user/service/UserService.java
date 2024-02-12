@@ -38,7 +38,7 @@ public class UserService {
             throw new UserNotFoundException("User not found");
         }
         if(!passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())){
-            log.info("Password is incorrect");
+            log.error("Password is incorrect");
             throw new UserNotFoundException("Incorrect password");
         }
         final String token = jwtUtil.createToken(user.get());

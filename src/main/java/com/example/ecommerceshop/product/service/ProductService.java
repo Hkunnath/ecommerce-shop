@@ -88,7 +88,7 @@ public class ProductService {
                 .build();
     }
 
-    public void updateProductInventory(Integer id,Integer productQuantity){
+    public void reduceProductQuantityFromStock(Integer id,Integer productQuantity){
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(!optionalProduct.isPresent()){
             log.error("Product not found");
@@ -100,5 +100,17 @@ public class ProductService {
         int currentProductStock = optionalProduct.get().getStockQuantity();
         optionalProduct.get().setStockQuantity(currentProductStock-productQuantity);
         productRepository.save(optionalProduct.get());
+    }
+
+    public boolean checkProductInventory(Integer id,Integer productQuantity){
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(!optionalProduct.isPresent()){
+            log.error("Product not found");
+            throw new ProductNotFoundException();
+        }
+        if(!(optionalProduct.get().getStockQuantity() >= productQuantity)){
+            throw new InsufficientStockException(String.format("Product with id %d is Out of Stock",id));
+        }
+        return true;
     }
 }

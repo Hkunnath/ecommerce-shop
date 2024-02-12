@@ -31,7 +31,7 @@ public class CartController {
         cartService.addProductsToCart((CustomUserDetails) userDetails,productDto);
     }
 
-    @PutMapping
+    @DeleteMapping("/removeproduct")
     public void removeProductsFromCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto){
         cartService.removeProductsFromCart((CustomUserDetails) userDetails,productDto);
     }

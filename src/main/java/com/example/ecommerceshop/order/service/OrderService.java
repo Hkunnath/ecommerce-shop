@@ -46,23 +46,24 @@ public class OrderService {
         log.info("User Id" + userId);
         Optional<Cart> optionalCart = cartRepository.findByUserId(userId);
         if (optionalCart.isEmpty()) {
-            log.info("No Cart found for associated user");
+            log.error(String.format("No Cart found for userID %d ", userId));
             throw new CartNotFoundException(String.format("No Cart found for userID %d ", userId));
         }
         Order order = new Order(userId, 0);
         List<OrderItem> orderItemList = cartItemToOrder.toOrderItemList(optionalCart.get().getCartItems());
 
         orderItemList.stream().forEach(
-                orderItem -> productService.updateProductInventory(orderItem.getProductId(), orderItem.getQuantity())
+                orderItem -> productService.reduceProductQuantityFromStock(orderItem.getProductId(), orderItem.getQuantity())
         );
         double totalCost = orderItemList.stream().map(OrderItem::getOrderItemCost).mapToDouble(Double::doubleValue).sum();
         order.setOrderItems(orderItemList);
         order.setStatus(OrderStatus.ORDER_PLACED);
         order.setDate(ZonedDateTime.now());
         order.setTotalCost(totalCost);
-        log.info("Order Placed" + order);
         orderRepository.save(order);
+        log.info(String.format("Order Placed %s",order));
         cartRepository.delete(optionalCart.get());
+        log.info("Associated Cart got deleted");
     }
 
     public void changeOrderStatus(Integer orderId, String status) {
@@ -78,7 +79,7 @@ public class OrderService {
                 orderRepository.save(order);
            }
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid status: " + status);
+            log.error(String.format("Invalid status: %s",status));
         }
     }
 }
