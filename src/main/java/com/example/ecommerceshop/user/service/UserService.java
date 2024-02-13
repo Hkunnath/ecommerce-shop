@@ -24,7 +24,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserDto registerUser(SignupRequest signUpRequest) {
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getRole().toUpperCase());
         userRepository.save(user);
         log.info("User Registered successfully");
         final String token = jwtUtil.createToken(user);

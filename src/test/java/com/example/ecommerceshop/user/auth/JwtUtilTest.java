@@ -43,7 +43,8 @@ class JwtUtilTest {
     void test_accessToken_uses_Username(){
         when(mockUser.getUsername()).thenReturn("testUser");
         when(mockUser.getEmail()).thenReturn("test@example.com");
-        when(mockUser.getRole()).thenReturn("user");
+        when(mockUser.getRole()).thenReturn("USER");
+        when(mockUser.getId()).thenReturn(1);
 
         Claims claims = Jwts.claims().subject(mockUser.getUsername()).build();
         Date tokenCreateTime = new Date();
@@ -54,8 +55,9 @@ class JwtUtilTest {
         String token = jwtUtil.createToken(mockUser);
         String returnString = Jwts.builder()
                 .claims(claims)
+                .claim("user_id",mockUser.getId())
                 .claim("email", mockUser.getEmail())
-                .claim("role", mockUser.getRole())
+                .claim("role", mockUser.getRole().toUpperCase())
                 .expiration(tokenValidity).signWith(secretKey)
                 .compact();
 
