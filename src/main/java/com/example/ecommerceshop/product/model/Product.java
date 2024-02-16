@@ -4,75 +4,79 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @NotBlank
-    private String productName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    private String productDescription;
-    @NotBlank
-    private double productPrice;
+  @NotBlank private String productName;
 
-    private Integer stockQuantity;
+  private String productDescription;
+  @NotBlank private double productPrice;
 
-    public Product() {
-    }
+  private Integer stockQuantity;
 
-    public Product(String productName, String productDecription, double productPrice, Integer stockQuantity) {
-        this.productName = productName;
-        this.productDescription = productDecription;
-        this.productPrice = productPrice;
-        this.stockQuantity = stockQuantity;
-    }
+  public Product() {}
 
-    public Product(Integer id, String productName, String productDecription, double productPrice, Integer stockQuantity) {
-        this.id = id;
-        this.productName = productName;
-        this.productDescription = productDecription;
-        this.productPrice = productPrice;
-        this.stockQuantity = stockQuantity;
-    }
+  public Product(
+      String productName, String productDecription, double productPrice, Integer stockQuantity) {
+    this.productName = productName;
+    this.productDescription = productDecription;
+    this.productPrice = productPrice;
+    this.stockQuantity = stockQuantity;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public Product(
+      Integer id,
+      String productName,
+      String productDecription,
+      double productPrice,
+      Integer stockQuantity) {
+    this.id = id;
+    this.productName = productName;
+    this.productDescription = productDecription;
+    this.productPrice = productPrice;
+    this.stockQuantity = stockQuantity;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getProductName() {
-        return productName;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+  public String getProductName() {
+    return productName;
+  }
 
-    public String getProductDescription() {
-        return productDescription;
-    }
+  public void setProductName(String productName) {
+    this.productName = productName;
+  }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
+  public String getProductDescription() {
+    return productDescription;
+  }
 
-    public double getProductPrice() {
-        return productPrice;
-    }
+  public void setProductDescription(String productDescription) {
+    this.productDescription = productDescription;
+  }
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
+  public double getProductPrice() {
+    return productPrice;
+  }
 
-    public Integer getStockQuantity() {
-        return stockQuantity;
-    }
+  public void setProductPrice(double productPrice) {
+    this.productPrice = productPrice;
+  }
 
-    public void setStockQuantity(Integer stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
+  public Integer getStockQuantity() {
+    return stockQuantity;
+  }
+
+  public void setStockQuantity(Integer stockQuantity) {
+    this.stockQuantity = stockQuantity;
+  }
 }
