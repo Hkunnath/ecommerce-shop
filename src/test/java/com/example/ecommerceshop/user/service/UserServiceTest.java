@@ -44,11 +44,11 @@ class UserServiceTest {
     @Test
     void shouldRegisterSuccessfully() {
         final String email = "test@gmail.com";
-        final String role = "testRole";
+        final String role = "USER";
         final SignupRequest signupRequest = SignupRequest.builder().username(userName).email(email).password(password).role(role).build();
         final String jwt = "jwt";
         when(passwordEncoder.encode(anyString())).thenReturn("password");
-        final User user = new User(userName, email, passwordEncoder.encode(password), role);
+        final User user = new User(userName, email, passwordEncoder.encode(password), role.toUpperCase());
         when(jwtUtil.createToken(user)).thenReturn(jwt);
         UserDto expected = UserDto.builder().username(userName).jwt(jwt).build();
         UserDto actual = userService.registerUser(signupRequest);
@@ -58,7 +58,7 @@ class UserServiceTest {
     @Test
     void shouldLoginSuccessfully() {
         final String email = "test@gmail.com";
-        final String role = "testRole";
+        final String role = "USER";
         final User user = new User(userName, email, password, role);
         final LoginRequest loginRequest = LoginRequest.builder().username(userName).password(password).build();
         final String jwt = "jwt";
