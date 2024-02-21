@@ -4,12 +4,14 @@ import com.example.ecommerceshop.user.auth.JwtUtil;
 import com.example.ecommerceshop.user.dto.request.LoginRequest;
 import com.example.ecommerceshop.user.dto.request.SignupRequest;
 import com.example.ecommerceshop.user.dto.response.UserDto;
+import com.example.ecommerceshop.user.exception.UserAlreadyExistException;
 import com.example.ecommerceshop.user.exception.UserNotFoundException;
 import com.example.ecommerceshop.user.model.User;
 import com.example.ecommerceshop.user.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,12 @@ public class UserService {
             signUpRequest.getEmail(),
             passwordEncoder.encode(signUpRequest.getPassword()),
             signUpRequest.getRole().toUpperCase());
-    userRepository.save(user);
+    try {
+      userRepository.save(user);
+    } catch (DataIntegrityViolationException e) {
+      log.error("Exception ::: ", e);
+      throw new UserAlreadyExistException();
+    }
     log.info("User Registered successfully");
     final String token = jwtUtil.createToken(user);
     return new UserDto(user.getUsername(), user.getId(), token);

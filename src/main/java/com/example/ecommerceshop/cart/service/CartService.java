@@ -47,19 +47,20 @@ public class CartService {
       throw new CartNotFoundException("CartNotFoundException");
     }
 
-    final Optional<CartItem> cartItemToRemove =
+    final Optional<CartItem> optionalCartItemToRemove =
         cart.get().getCartItems().stream()
             .filter(cartItem -> cartItem.getProductId().equals(productDto.getProductId()))
             .findFirst();
 
-    if (cartItemToRemove.isEmpty()) {
+    if (optionalCartItemToRemove.isEmpty()) {
       log.error(String.format("No product with the following details %s", productDto));
       throw new ProductNotFoundException();
     }
-    cart.get().getCartItems().remove(cartItemToRemove);
-    cartItemRepository.delete(cartItemToRemove.get());
+    CartItem originalCartItem = optionalCartItemToRemove.get();
+    cart.get().getCartItems().remove(originalCartItem);
+    cartItemRepository.delete(originalCartItem);
     double cartTotalCost = cart.get().getTotalCost();
-    cart.get().setTotalCost(cartTotalCost - cartItemToRemove.get().getCartItemCost());
+    cart.get().setTotalCost(cartTotalCost - originalCartItem.getCartItemCost());
     cartRepository.save(cart.get());
   }
 
