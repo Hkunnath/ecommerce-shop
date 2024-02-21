@@ -39,7 +39,7 @@ public class CartService {
     return cartTransformer.toDto(cart.get());
   }
 
-  public void removeProductsFromCart(CustomUserDetails customUserDetails, ProductDto productDto) {
+  public void removeProductsFromCart(CustomUserDetails customUserDetails, Integer id) {
     final Integer userId = customUserDetails.getUserId();
     Optional<Cart> cart = cartRepository.findByUserId(userId);
     if (cart.isEmpty()) {
@@ -49,11 +49,11 @@ public class CartService {
 
     final Optional<CartItem> optionalCartItemToRemove =
         cart.get().getCartItems().stream()
-            .filter(cartItem -> cartItem.getProductId().equals(productDto.getProductId()))
+            .filter(cartItem -> cartItem.getProductId().equals(id))
             .findFirst();
 
     if (optionalCartItemToRemove.isEmpty()) {
-      log.error(String.format("No product with the following details %s", productDto));
+      log.error(String.format("No product with the following id %d", id));
       throw new ProductNotFoundException();
     }
     CartItem originalCartItem = optionalCartItemToRemove.get();

@@ -32,10 +32,10 @@ public class CartController {
     cartService.addProductsToCart((CustomUserDetails) userDetails, productDto);
   }
 
-  @DeleteMapping("/removeproduct")
+  @DeleteMapping("/removeproduct/{id}")
   public ResponseEntity<Object> removeProductsFromCart(
-      @AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto) {
-    cartService.removeProductsFromCart((CustomUserDetails) userDetails, productDto);
+      @AuthenticationPrincipal UserDetails userDetails, @PathVariable Integer id) {
+    cartService.removeProductsFromCart((CustomUserDetails) userDetails, id);
     return ResponseEntity.noContent().build();
   }
 }
