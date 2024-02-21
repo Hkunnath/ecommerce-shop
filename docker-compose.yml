@@ -8,7 +8,7 @@ services:
     depends_on:
       - db
     environment:
-          SPRING_DATASOURCE_URL: jdbc:mysql://db:3307/newtest_db?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+          SPRING_DATASOURCE_URL: jdbc:mysql://db:3307/ecommerce_app?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     networks:
       - spring-cloud-network
 
@@ -19,7 +19,7 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_DATABASE=newtest_db
+      - MYSQL_DATABASE=ecommerce_app
       - MYSQL_ROOT_USERNAME=root
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_TCP_PORT=3307
