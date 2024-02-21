@@ -1,6 +1,7 @@
 package com.example.ecommerceshop.user.auth;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.example.ecommerceshop.user.model.User;
@@ -13,26 +14,27 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class JwtUtilTest {
 
-  @Mock private User mockUser;
+  public static final String SECRET_KEY =
+      "MY=SUPER=SECRET=CODE123=333====2323=123==452345=6756=76=";
+  private User mockUser;
 
-  @Autowired private JwtUtil jwtUtil;
+  private JwtUtil jwtUtil;
   private SecretKey secretKey;
 
-  @Mock private HttpServletRequest mockRequest;
+  private HttpServletRequest mockRequest;
 
-  @Mock private Claims mockClaims;
+  private Claims mockClaims;
 
   @BeforeEach
   void setUp() {
-    secretKey =
-        Keys.hmacShaKeyFor("MY=SUPER=SECRET=CODE123=333====2323=123==452345=6756=76=".getBytes());
+    mockUser = mock(User.class);
+    mockRequest = mock(HttpServletRequest.class);
+    mockClaims = mock(Claims.class);
+    jwtUtil = new JwtUtil(SECRET_KEY);
+    secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
   }
 
   @Test
