@@ -33,8 +33,9 @@ public class CartController {
   }
 
   @DeleteMapping("/removeproduct")
-  public void removeProductsFromCart(
+  public ResponseEntity<Object> removeProductsFromCart(
       @AuthenticationPrincipal UserDetails userDetails, @RequestBody ProductDto productDto) {
     cartService.removeProductsFromCart((CustomUserDetails) userDetails, productDto);
+    return ResponseEntity.noContent().build();
   }
 }

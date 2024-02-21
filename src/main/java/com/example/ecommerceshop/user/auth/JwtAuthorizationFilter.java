@@ -54,7 +54,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     } catch (Exception e) {
       ErrorDetails errorDetails =
-          ErrorDetails.builder().details("Details").message("Authentication Error").build();
+          ErrorDetails.builder()
+              .details(e.getMessage())
+              .message("Authentication Error")
+              .httpStatusCode(HttpStatus.FORBIDDEN.value())
+              .build();
       response.setStatus(HttpStatus.FORBIDDEN.value());
       response.setContentType(MediaType.APPLICATION_JSON_VALUE);
       mapper.writeValue(response.getWriter(), errorDetails);
