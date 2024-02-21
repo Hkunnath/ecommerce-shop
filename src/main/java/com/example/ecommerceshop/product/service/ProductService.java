@@ -3,12 +3,14 @@ package com.example.ecommerceshop.product.service;
 import com.example.ecommerceshop.product.dto.request.ProductDetailsDto;
 import com.example.ecommerceshop.product.dto.response.ProductResponseDto;
 import com.example.ecommerceshop.product.exception.InsufficientStockException;
+import com.example.ecommerceshop.product.exception.ProductAlreadyExistException;
 import com.example.ecommerceshop.product.exception.ProductNotFoundException;
 import com.example.ecommerceshop.product.model.Product;
 import com.example.ecommerceshop.product.repository.ProductRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +36,12 @@ public class ProductService {
             productDetailsDto.getProductDescription(),
             productDetailsDto.getProductPrice(),
             productDetailsDto.getStockQuantity());
-    product = productRepository.save(product);
+    try {
+      product = productRepository.save(product);
+    } catch (DataIntegrityViolationException e) {
+      log.error("Exception ::: ", e);
+      throw new ProductAlreadyExistException();
+    }
     log.info("New product added to repository");
     return ProductResponseDto.builder()
         .productId(product.getId())

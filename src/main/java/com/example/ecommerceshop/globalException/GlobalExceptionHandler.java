@@ -3,6 +3,7 @@ package com.example.ecommerceshop.globalException;
 import com.example.ecommerceshop.cart.exception.CartNotFoundException;
 import com.example.ecommerceshop.order.exception.OrderNotFoundException;
 import com.example.ecommerceshop.product.exception.InsufficientStockException;
+import com.example.ecommerceshop.product.exception.ProductAlreadyExistException;
 import com.example.ecommerceshop.product.exception.ProductNotFoundException;
 import com.example.ecommerceshop.user.dto.response.ErrorDetails;
 import com.example.ecommerceshop.user.exception.UserAlreadyExistException;
@@ -27,6 +28,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({UserAlreadyExistException.class})
   public ResponseEntity<Object> handleUserAlreadyExistException(
       UserAlreadyExistException exception) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(
+            new ErrorDetails(
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                HttpStatus.BAD_REQUEST.value()));
+  }
+
+  @ExceptionHandler({ProductAlreadyExistException.class})
+  public ResponseEntity<Object> handleProductAlreadyExistException(
+      ProductAlreadyExistException exception) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(
             new ErrorDetails(
