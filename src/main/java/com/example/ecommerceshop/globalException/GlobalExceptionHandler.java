@@ -1,6 +1,7 @@
 package com.example.ecommerceshop.globalException;
 
 import com.example.ecommerceshop.cart.exception.CartNotFoundException;
+import com.example.ecommerceshop.order.exception.EmptyCartException;
 import com.example.ecommerceshop.order.exception.OrderNotFoundException;
 import com.example.ecommerceshop.product.exception.InsufficientStockException;
 import com.example.ecommerceshop.product.exception.ProductAlreadyExistException;
@@ -86,5 +87,15 @@ public class GlobalExceptionHandler {
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 HttpStatus.BAD_REQUEST.value()));
+  }
+
+  @ExceptionHandler({EmptyCartException.class})
+  public ResponseEntity<Object> EmptyCartException(EmptyCartException exception) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(
+                    new ErrorDetails(
+                            exception.getMessage(),
+                            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                            HttpStatus.BAD_REQUEST.value()));
   }
 }

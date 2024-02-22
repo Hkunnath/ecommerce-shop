@@ -3,12 +3,14 @@ package com.example.ecommerceshop.order.service;
 import com.example.ecommerceshop.cart.exception.CartNotFoundException;
 import com.example.ecommerceshop.cart.model.Cart;
 import com.example.ecommerceshop.cart.repository.CartRepository;
+import com.example.ecommerceshop.order.exception.EmptyCartException;
 import com.example.ecommerceshop.order.exception.OrderNotFoundException;
 import com.example.ecommerceshop.order.mapper.CartItemTransformertoOrderItem;
 import com.example.ecommerceshop.order.model.Order;
 import com.example.ecommerceshop.order.model.OrderItem;
 import com.example.ecommerceshop.order.model.OrderStatus;
 import com.example.ecommerceshop.order.repository.OrderRepository;
+import com.example.ecommerceshop.product.exception.ProductNotFoundException;
 import com.example.ecommerceshop.product.service.ProductService;
 import com.example.ecommerceshop.user.service.CustomUserDetails;
 import jakarta.transaction.Transactional;
@@ -50,6 +52,11 @@ public class OrderService {
     Order order = new Order(userId, 0);
     List<OrderItem> orderItemList =
         cartItemToOrder.toOrderItemList(optionalCart.get().getCartItems());
+
+    if(orderItemList.isEmpty()){
+      log.error("No Products are in the cart to process the order");
+      throw new EmptyCartException();
+    }
 
     orderItemList.stream()
         .forEach(
